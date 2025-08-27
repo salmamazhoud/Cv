@@ -1,0 +1,69 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const activities = {
+  1: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "الملتقى الشتوي"],
+  2: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "المبتكر الصغير"],
+  3: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "الدائرة الكهربائية"],
+  4: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "زيارة مدرسة أميمة", "المسابقة الثقافية", "برنامج نورني لتعليم العاملات المسلمات"],
+  5: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو"],
+  6: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "المستكشف الصغير", "تحفيظ القرآن للفتية", "مسابقة حفظ القرآن"],
+  7: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "المستكشف الصغير", "تحفيظ القرآن للفتية", "مسابقة حفظ القرآن", "صيفي متعة وفائدة", "ورشة تركيب وبرمجة الروبوتات"],
+  8: ["محو الأمية وتعليم كبار السن", "تدريب الفتية على مهارة التايكوندو", "صيفي متعة وفائدة"],
+};
+
+const months = [
+  "يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+];
+
+export default function LandingPage() {
+  const [selectedMonth, setSelectedMonth] = useState(1);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-indigo-100 to-white p-6 font-[Cairo]" dir="rtl">
+      <div className="text-center mb-8">
+        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl font-bold text-indigo-700">
+          الخطة السنوية لأنشطة مكتبة إبراء العامة 2025
+        </motion.h1>
+        <p className="text-gray-600 mt-2">استكشف الأنشطة الشهرية والفعاليات المتنوعة</p>
+      </div>
+
+      {/* أزرار الأشهر */}
+      <div className="flex flex-wrap justify-center gap-2 mb-8">
+        {months.map((m, i) => (
+          <Button
+            key={i}
+            variant={selectedMonth === i + 1 ? "default" : "outline"}
+            onClick={() => setSelectedMonth(i + 1)}
+            className="rounded-2xl"
+          >
+            {m}
+          </Button>
+        ))}
+      </div>
+
+      {/* عرض الأنشطة */}
+      <motion.div
+        key={selectedMonth}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        {activities[selectedMonth]?.length ? (
+          activities[selectedMonth].map((act, i) => (
+            <Card key={i} className="shadow-lg rounded-2xl border border-indigo-200">
+              <CardContent className="p-4 text-center text-gray-800 font-medium">
+                {act}
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <p className="text-gray-500 col-span-full text-center">لا توجد أنشطة مسجلة لهذا الشهر</p>
+        )}
+      </motion.div>
+    </div>
+  );
+}
